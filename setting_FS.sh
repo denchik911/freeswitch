@@ -69,12 +69,32 @@ if [ -f "$MOD_CONF" ]; then
 
 fi
 
+# Налаштування acl для websocket та eventsocket
+echo -e "${GREEN}Налаштування acl.conf.xml...${NC}"
+
+ACL_CONF="$FS_DIR/autoload_configs/acl.conf.xml"
+
+if [ -f "$ACL_CONF" ] && ! grep -q 'name="event_socket"' "$ACL_CONF"; then
+    sed -i '/<network-lists>/a\
+\
+    <list name="internal_networks" default="deny">\
+      <node type="allow" cidr="10.0.0.0/8"/>\
+    </list>\
+\
+    <list name="event_socket" default="deny">\
+      <node type="allow" cidr="10.0.0.0/8"/>\
+      <node type="allow" cidr="127.0.0.1/16"/>\
+    </list>\
+' "$ACL_CONF"
+fi
+
 
 # 4. Налаштування mod_event_socket (IPv4)
 echo -e "${GREEN}Налаштування event_socket.conf.xml...${NC}"
 ES_CONF="$FS_DIR/autoload_configs/event_socket.conf.xml"
 if [ -f "$ES_CONF" ]; then
     sed -i 's|name="listen-ip" value="::"|name="listen-ip" value="0.0.0.0"|g' "$ES_CONF"
+    sed -i 's|<!--<param name="apply-inbound-acl" value="loopback.auto"/>-->|<param name="apply-inbound-acl" value="event_socket"/>|g' "$ES_CONF"
 fi
 
 # 5. Відкриття портів RTP в діапазоні 8000 – 32768
@@ -136,6 +156,11 @@ cat <<EOF > "$FS_DIR/sip_profiles/${PROFILE_NAME}.xml"
     <domain name="all" alias="false" parse="true"/>
   </domains>
   <settings>
+    <param name="apply-candidate-acl" value="internal_networks"/>
+    <param name="rtp-secure-media" value="optional"/>
+    <param name="media-webrtc" value="true"/>
+    <param name="wss-binding" value=":7443"/>
+    <param name="dtls-cert-dir" value="/etc/freeswitch/tls"/>
     <param name="user-agent-string" value="FreeSWITCH ${PROFILE_NAME}"/>
     <param name="caller-id-type" value="rpid"/>
     <param name="debug" value="7"/>
@@ -153,7 +178,6 @@ cat <<EOF > "$FS_DIR/sip_profiles/${PROFILE_NAME}.xml"
     <param name="nonce-ttl" value="60"/>
     <param name="ext-rtp-ip" value="auto-nat"/>
     <param name="ext-sip-ip" value="auto-nat"/>
-    <param name="apply-inbound-acl" value="alcgw"/>
     <param name="dialplan" value="XML"/>
     <param name="context" value="${PROFILE_NAME}"/>
     <param name="max-proceeding" value="2000"/>
