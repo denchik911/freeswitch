@@ -219,7 +219,7 @@ mkdir -p "$FS_DIR/sip_profiles/${PROFILE_NAME}"
 echo -e "${GREEN}Налаштування Directory (користувачі)...${NC}"
 cat <<EOF > "$FS_DIR/directory/${PROFILE_NAME}.xml"
 <include>
-  <domain name="\$\${local_ip_v4}">
+  <domain name="\$\${domain}">
     <params>
         <param name="dial-string" value="{presence_id=\${dialed_user}@\${dialed_domain}}\${sofia_contact(\${dialed_user}@\${dialed_domain})}"/>
     </params>
