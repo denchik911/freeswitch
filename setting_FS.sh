@@ -126,12 +126,6 @@ if [ -f "$VARS_CONF" ]; then
     # Коментування stun-set
     sed -i 's|<X-PRE-PROCESS cmd="stun-set" data="external_rtp_ip=stun:stun.freeswitch.org"/>|<!-- <X-PRE-PROCESS cmd="stun-set" data="external_rtp_ip=stun:stun.freeswitch.org"/> -->|g' "$VARS_CONF"
 fi
-
-SOFIA_CONF="$FS_DIR/autoload_configs/sofia.conf.xml"
-if [ -f "$SOFIA_CONF" ]; then
-    sed -i "s|<!-- <param name=\"capture-server\" value=\"udp:homer.domain.com:5060;hep=3;capture_id=100\"/> -->|<param name=\"capture-server\" value=\"udp:${LOCAL_IP}:9060;hep=3;capture_id=100\"/>|g" "$SOFIA_CONF"
-fi
-
 # 7. Налаштування запису логів у файл
 echo -e "${GREEN}Налаштування логування...${NC}"
 touch /var/log/freeswitch.log
@@ -204,9 +198,7 @@ cat <<EOF > "$FS_DIR/sip_profiles/${PROFILE_NAME}.xml"
     <param name="manage-presence" value="true"/>
     <param name="accept-blind-auth" value="false"/>
     <param name="accept-blind-reg" value="false"/>
-    <param name="sip-capture" value="yes"/>
-    <param name="capture-server" value="udp:${LOCAL_IP}:9060"/>
-    <param name="capture-id" value="3"/>
+    <param name="sip-capture" value="no"/>
   </settings>
 </profile>
 EOF
