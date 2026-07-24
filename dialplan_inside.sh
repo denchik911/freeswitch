@@ -26,9 +26,9 @@ echo -e "${BLUE}[2/4] Генерація конфігурацій...${NC}"
 # Створюємо абонента 1001
 cat << EOF > "$FS_DIR/$NAME.xml"
 <include>
-  <extension name="$NAME">
-    <condition field="destination_number" expression="^($NUMBER)$">
-         <action application="bridge" data="user/$1@$DOMAIN"/>
+  <extension name="${NAME}">
+    <condition field="destination_number" expression="^(${NUMBER})\$">
+         <action application="bridge" data="user/$1@${DOMAIN}"/>
         <!-- Кладем трубку -->
         <action application="hangup"/>
     </condition>
