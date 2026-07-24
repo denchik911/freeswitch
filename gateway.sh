@@ -25,12 +25,12 @@ echo -e "${BLUE}[2/4] Генерація конфігурацій для тра�
 
 # Створюємо абонента 1001
 cat << EOF > "$FS_DIR/$NAME.xml"
-   <gateway name="$NAME">
-     <param name="username" value="$NUMBER"/>
-     <param name="password" value="$PASSWORD"/>
+   <gateway name="${NAME}">
+     <param name="username" value="${NUMBER}"/>
+     <param name="password" value="${PASSWORD}"/>
      <param name="register" value="true"/>
-     <param name="proxy" value="$NETWORK"/>
-     <param name="context" value="$PROFILE_NAME"/>
+     <param name="proxy" value="${NETWORK}"/>
+     <param name="context" value="${PROFILE_NAME}"/>
    </gateway>
 EOF
 
