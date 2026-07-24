@@ -26,11 +26,11 @@ echo -e "${BLUE}[2/4] Генерація конфігурацій...${NC}"
 # Створюємо абонента 1001
 cat << EOF > "$FS_DIR/$NAME.xml"
 <include>
-  <extension name="$NAME">
-    <condition field="destination_number" expression="^($NUMBER)$">
+  <extension name="${NAME}">
+    <condition field="destination_number" expression="^(${NUMBER})\$">
         <action application="set" data="hangup_after_bridge=true"/>
         <action application="set" data="continue_on_fail=true"/>
-        <action application="bridge" data="sofia/gateway/$GATEWAY/\$1"/>
+        <action application="bridge" data="sofia/gateway/${GATEWAY}/\$1"/>
         <action application="hangup"/>
     </condition>
   </extension>
