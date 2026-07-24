@@ -35,7 +35,7 @@ cat << EOF > "$FS_DIR/$NUMBER.xml"
       <variable name="outbound_caller_id_name" value="$NUMBER"/>
       <variable name="outbound_caller_id_number" value="$NUMBER"/>
       <variable name="user_context" value="$PROFILE_NAME"/>
-      <variable name="sip-force-expires" value="3600"/>
+      <variable name="sip-force-expires" value="60"/>
       <variable name="dtmf-type" value="rfc2833"/>
     </variables>
   </user>
