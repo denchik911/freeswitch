@@ -1,0 +1,53 @@
+відкрити командний рядок (cmd)
+Далі о черзі вводити команди
+ssh manager@192.168.1.2
+Пароль 12
+su -
+Пароль 12
+apt-get update && apt-get install -y gnupg2 wget lsb-release
+TOKEN=pat_odjhDGBJXBad8HnWYpRsuGjf
+wget --http-user=signalwire --http-password=$TOKEN -O /usr/share/keyrings/signalwire-freeswitch-repo.gpg https://freeswitch.signalwire.com/repo/deb/debian-release/signalwire-freeswitch-repo.gpg
+echo "machine freeswitch.signalwire.com login signalwire password $TOKEN" > /etc/apt/auth.conf
+chmod 600 /etc/apt/auth.conf
+echo "deb [signed-by=/usr/share/keyrings/signalwire-freeswitch-repo.gpg] https://freeswitch.signalwire.com/repo/deb/debian-release/ `lsb_release -sc` main" > /etc/apt/sources.list.d/freeswitch.list
+echo "deb-src [signed-by=/usr/share/keyrings/signalwire-freeswitch-repo.gpg] https://freeswitch.signalwire.com/repo/deb/debian-release/ `lsb_release -sc` main" >> /etc/apt/sources.list.d/freeswitch.list
+apt-get update && apt-get install -y freeswitch-meta-all
+
+Перезапускаємо freeswitch
+systemctl restart freeswitch
+
+Перевіряємо статус freeswitch
+systemctl status freeswitch
+fs_cli -x "sofia status"
+
+Налаштування
+apt install mc git -y
+cd /home/manager
+git clone https://github.com/denchik911/freeswitch.git
+cd /home/manager/freeswitch
+bash ./setting_FS.sh
+
+Вказати назву профіля - ім'я свої англійською
+
+перевірити чи профіль піднятий
+fs_cli -x "sofia status"
+
+
+	створити номери
+
+cd /home/manager/freeswitch
+bash ./extensions.sh
+
+bash ./dialplane.
+створюємо транк
+
+
+
+
+
+
+
+
+
+
+
