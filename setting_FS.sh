@@ -157,7 +157,7 @@ cat <<EOF > "$FS_DIR/sip_profiles/${PROFILE_NAME}.xml"
     <param name="dtls-cert-dir" value="/etc/freeswitch/tls"/>
     <param name="user-agent-string" value="FreeSWITCH ${PROFILE_NAME}"/>
     <param name="caller-id-type" value="rpid"/>
-    <param name="debug" value="7"/>
+    <param name="debug" value="0"/>
     <param name="sip-trace" value="no"/>
     <param name="sip-capture" value="no"/>
     <param name="log-auth-failures" value="true"/>
